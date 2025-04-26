@@ -9,6 +9,7 @@ import potrait from "../assets/images/potraits/potrait.webp";
 import brand from "../assets/images/brand/brand.webp";
 import food from "../assets/images/food/food6.jpg";
 import wedding1 from "../assets/images/weddings/wedding7.webp";
+import vid from "../assets/vids/vids.mp4";
 
 const HomePage = () => {
   const services = [
@@ -18,7 +19,7 @@ const HomePage = () => {
         "Capture the magic of your special day with stunning outdoor wedding photography.",
     },
     {
-      title: "Modeling Gigs",
+      title: "Model Shoots",
       description:
         "Elevate your portfolio with professional modeling shots in natural settings.",
     },
@@ -28,7 +29,7 @@ const HomePage = () => {
         "Create visually compelling content for your brand with outdoor photography.",
     },
     {
-      title: "Content Creation Shoots",
+      title: "Fashion Exhibition Shows",
       description:
         "Bring your creative ideas to life with custom content creation shoots.",
     },
@@ -51,7 +52,7 @@ const HomePage = () => {
         "The brand shoot Anjorin did for us was phenomenal. Highly recommend!",
     },
     {
-      name: "Luxe Brands",
+      name: "Louis, Manager",
       quote:
         "The brand shoot Anjorin did for us was phenomenal. Highly recommend!",
     },
@@ -64,7 +65,7 @@ const HomePage = () => {
     },
     {
       src: potrait,
-      alt: "Modeling Gig",
+      alt: "Model shoot",
     },
     {
       src: brand,
@@ -139,13 +140,58 @@ const HomePage = () => {
           </p>
         </div>
       </motion.section>
-      {/* Featured Work Section */}
+
+      {/* Behind the Scenes Video Section */}
       <motion.section
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
         className="py-20 px-4 bg-white"
+      >
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-indigo-900 mb-6">
+            Behind the Scenes: Capturing the Moment
+          </h2>
+          <div className="relative w-full h-64">
+            <video
+              src={vid}
+              autoplay
+              controls
+              muted
+              className="w-full max-w-xl h-84 rounded-lg shadow-lg mx-auto mt-6 border border-2 object-cover"
+              loading="lazy"
+            />
+          </div>
+          <button
+            onClick={(e) => {
+              const video = e.target.previousElementSibling; // Get the video element
+              if (video.muted) {
+                video.muted = false; // Unmute the video
+                e.target.textContent = "Mute"; // Change button text
+              } else {
+                video.muted = true; // Mute the video
+                e.target.textContent = "Unmute"; // Change button text
+              }
+            }}
+            className="mt-4 bg-indigo-900 text-white px-4 py-2 rounded-lg hover:bg-indigo-800 transition"
+          >
+            Unmute
+          </button>
+
+          <p className="text-gray-700 text-lg leading-relaxed mt-20">
+            Join me as I share insights and experiences while working behind the
+            lens.
+          </p>
+        </div>
+      </motion.section>
+      {/* Featured Work Section */}
+      <motion.section
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="py-8 px-4 bg-white"
       >
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-blue-900 text-center mb-12 font-montserrat">
@@ -178,6 +224,10 @@ const HomePage = () => {
               </a>
             </div>
           </div>
+
+          <div>
+            <video src=""></video>
+          </div>
         </div>
       </motion.section>
 
@@ -187,7 +237,7 @@ const HomePage = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="py-20 px-4 bg-white"
+        className="py-6 px-4 bg-white"
       >
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-indigo-900 text-center mb-12">
@@ -254,7 +304,7 @@ const HomePage = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="py-20 px-4"
+        className="py-6 px-4"
       >
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-blue-900 text-center mb-12 font-montserrat">

@@ -27,7 +27,7 @@ const ContactForm = () => {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
-          to_email: "anjorin@example.com", // Replace with Anjorin's email
+          to_email: "anjorinabraham8@example.com",
         },
         "YOUR_PUBLIC_KEY" // Replace with your EmailJS Public Key
       )
