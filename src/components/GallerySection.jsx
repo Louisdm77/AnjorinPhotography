@@ -1,47 +1,113 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules"; // Import Swiper modules
+import Modal from "react-modal";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+// Bind modal to app element for accessibility
+Modal.setAppElement("#root");
 
 const GallerySection = ({ title, images }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const toggleSection = () => setIsOpen(!isOpen);
+  const openModal = (image) => {
+    setSelectedImage(image);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
 
   return (
     <div className="mb-12">
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        onClick={toggleSection}
-        className="w-full bg-gradient-to-r from-purple-900 to-indigo-900 text-white font-bold py-3 rounded-lg mb-4 text-xl"
-      >
-        {title} {isOpen ? "▲" : "▼"}
-      </motion.button>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          transition={{ duration: 0.5 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-200 text-center mb-8 font-montserrat">
+        {title}
+      </h2>
+      <div className="px-4">
+        <Swiper
+          modules={[Navigation, Pagination]} // Enable navigation and pagination
+          spaceBetween={16} // Space between slides (matches px-2)
+          slidesPerView={2} // Show 4 images at a time on large screens
+          navigation // Enable arrows
+          pagination={{ clickable: true }} // Enable dots
+          breakpoints={{
+            1024: {
+              slidesPerView: 4, // 2 images on tablet
+              spaceBetween: 12,
+            },
+            640: {
+              slidesPerView: 1, // 1 image on mobile
+              spaceBetween: 8,
+            },
+          }}
+          className="mySwiper"
         >
           {images.map((image, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="relative rounded-lg overflow-hidden shadow-lg"
-            >
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-64 object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
-                <p className="text-white text-lg opacity-0 hover:opacity-100 transition-opacity">
-                  {image.alt}
-                </p>
+            <SwiperSlide key={index}>
+              <div
+                className="cursor-pointer"
+                onClick={() => openModal(image)}
+              >
+                <div className="relative rounded-lg overflow-hidden shadow-lg border border-gray-700">
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-[300px] object-cover transition-all duration-300 hover:brightness-110"
+                    loading="lazy"
+                    onError={(e) => {
+                      console.error(
+                        `Failed to load image: ${image.src}`,
+                        e.target.src
+                      );
+                      // Fallback to a known image if the original fails
+                      e.target.src =
+                        "https://images.unsplash.com/photo-1519741497674-611481863f1e?q=80&w=2070&auto=format&fit=crop";
+                    }}
+                    onLoad={() => console.log(`Successfully loaded image: ${image.src}`)}
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 py-2 text-center">
+                    <p className="text-gray-200 text-sm font-lato">
+                      {image.alt}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </motion.div>
+            </SwiperSlide>
           ))}
-        </motion.div>
-      )}
+        </Swiper>
+      </div>
+
+      {/* Lightbox Modal */}
+      <Modal
+        isOpen={!!selectedImage}
+        onRequestClose={closeModal}
+        className="flex items-center justify-center h-full"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"
+        shouldCloseOnOverlayClick={true}
+      >
+        {selectedImage && (
+          <div className="relative max-w-5xl w-full p-4">
+            <button
+              onClick={closeModal}
+              className="absolute top-2 right-2 text-white text-4xl font-bold z-50"
+            >
+              ×
+            </button>
+            <img
+              src={selectedImage.src}
+              alt={selectedImage.alt}
+              className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
+            />
+            <p className="text-white text-center mt-4 font-lato">
+              {selectedImage.alt}
+            </p>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };
