@@ -35,7 +35,7 @@ const GallerySection = ({ title, images }) => {
           navigation
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           loop={true}
-          pagination={{ clickable: true }}
+        //   pagination={{ clickable: true }}
           breakpoints={{
             1024: {
               slidesPerView: 4,
@@ -77,8 +77,9 @@ const GallerySection = ({ title, images }) => {
               </div>
             </SwiperSlide>
           ))}
-          <div className="custom-swiper-pagination absolute bottom-[-2rem] left-0 right-0 text-center z-20" />
+          
         </Swiper>
+        <div className="custom-pagination absolute left-0 right-0 -bottom-10 z-10"></div>
       </div>
 
       {/* Lightbox Modal */}
