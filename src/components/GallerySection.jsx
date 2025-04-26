@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules"; // Import Swiper modules
+import { Autoplay, Navigation, Pagination } from "swiper/modules"; // Import Swiper modules
 import Modal from "react-modal";
 
 // Import Swiper styles
@@ -27,31 +27,30 @@ const GallerySection = ({ title, images }) => {
       <h2 className="text-3xl md:text-4xl font-bold text-gray-200 text-center mb-8 font-montserrat">
         {title}
       </h2>
-      <div className="px-4">
+      <div className="px-4 pb-12">
         <Swiper
-          modules={[Navigation, Pagination]} // Enable navigation and pagination
-          spaceBetween={16} // Space between slides (matches px-2)
-          slidesPerView={2} // Show 4 images at a time on large screens
-          navigation // Enable arrows
-          pagination={{ clickable: true }} // Enable dots
+          modules={[Navigation, Pagination, Autoplay]}
+          spaceBetween={16}
+          slidesPerView={2}
+          navigation
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          loop={true}
+          pagination={{ clickable: true }}
           breakpoints={{
             1024: {
-              slidesPerView: 4, // 2 images on tablet
+              slidesPerView: 4,
               spaceBetween: 12,
             },
             640: {
-              slidesPerView: 1, // 1 image on mobile
+              slidesPerView: 1,
               spaceBetween: 8,
             },
           }}
-          className="mySwiper"
+          className="mySwiper pb-16"
         >
           {images.map((image, index) => (
             <SwiperSlide key={index}>
-              <div
-                className="cursor-pointer"
-                onClick={() => openModal(image)}
-              >
+              <div className="cursor-pointer" onClick={() => openModal(image)}>
                 <div className="relative rounded-lg overflow-hidden shadow-lg border border-gray-700">
                   <img
                     src={image.src}
@@ -67,17 +66,18 @@ const GallerySection = ({ title, images }) => {
                       e.target.src =
                         "https://images.unsplash.com/photo-1519741497674-611481863f1e?q=80&w=2070&auto=format&fit=crop";
                     }}
-                    onLoad={() => console.log(`Successfully loaded image: ${image.src}`)}
+                    onLoad={() =>
+                      console.log(`Successfully loaded image: ${image.src}`)
+                    }
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 py-2 text-center">
-                    <p className="text-gray-200 text-sm font-lato">
-                      {image.alt}
-                    </p>
+                    <p className="text-gray-200 text-sm font-lato">View</p>
                   </div>
                 </div>
               </div>
             </SwiperSlide>
           ))}
+          <div className="custom-swiper-pagination absolute bottom-[-2rem] left-0 right-0 text-center z-20" />
         </Swiper>
       </div>
 
